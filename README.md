@@ -1,4 +1,4 @@
-# esx_realparking
+# esx_realparking CONVERTED TO QB BY JERICOFX
 A real car parking script for FiveM
 
 ![Parking example](https://i.imgur.com/J6SqHBK.png)
@@ -8,32 +8,17 @@ A real car parking script for FiveM
 ## Features
 
 - Store the car like the real life
-- Support esx_vehicleshop
 - Parking fees for player
 
-## Requirements
-
-1. [ESX](https://github.com/ESX-Org/es_extended)
-2. [esx_vehicleshop](https://github.com/ESX-Org/esx_vehicleshop)
 
 ## Download & Installation
 
-### Using YumV
-
-```
-yum install esx_realparking
-```
-
-### Using Git
-
+ 
+#ESX VERSION
 ```
 git clone https://github.com/kasuganosoras/esx_realparking
 ```
 
-### Manually
-
-- Download https://github.com/kasuganosoras/esx_realparking/archive/master.zip
-- Put it in the `[esx]` directory
 
 ## Installation
 
