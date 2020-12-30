@@ -9,7 +9,8 @@ CurrentFee       = nil
 LastPlate        = nil
 PlayerIdentifier = nil
 SpawnedVehicles  = false
-
+currentfuel = nil
+setfuel = nil
 Citizen.CreateThread(function()
 	while RSCore == nil do
 		Citizen.Wait(10)
@@ -161,6 +162,7 @@ end
 -- When player drive the car
 
 function DriveVehicle(vehicle)
+	
 	-- Delete the local entity first
 	DeleteNearVehicle(vector3(vehicle.location.x, vehicle.location.y, vehicle.location.z))
 	local vehicleProps = vehicle.props
@@ -168,13 +170,14 @@ function DriveVehicle(vehicle)
 	--LoadModel(vehicleProps["model"])
 
 	local tempVeh = CreateVehicle(vehicleProps["model"], vehicle.location.x, vehicle.location.y, vehicle.location.z, vehicle.location.h, true)
+	setfuel = exports['LegacyFuel']:SetFuel(tempVeh,currentfuel)
 	RSCore.Functions.SetVehicleProperties(tempVeh, vehicleProps)
 	SetVehicleOnGroundProperly(tempVeh)
 	SetVehicleLivery(tempVeh, vehicle.livery)
 	SetVehicleEngineHealth(tempVeh, vehicle.health.engine)
 	SetVehicleBodyHealth(tempVeh, vehicle.health.body)
 	SetVehiclePetrolTankHealth(tempVeh, vehicle.health.tank)
-
+	
 	Wait(200)
 	TaskWarpPedIntoVehicle(GetPlayerPed(-1), tempVeh, -1)
 
@@ -378,6 +381,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
+		
 		local pl        = GetEntityCoords(GetPlayerPed(-1))
 		local inParking = false
 		local parkName  = nil
@@ -389,6 +393,8 @@ Citizen.CreateThread(function()
 		end
 		if inParking and IsPedInAnyVehicle(GetPlayerPed(-1)) then
 			local storedVehicle = GetPedInStoredCar(GetPlayerPed(-1))
+
+			
 			if storedVehicle ~= false then
 				DisplayHelpText(string.format(_U("need_parking_fee", storedVehicle.fee)))
 			else
@@ -402,6 +408,7 @@ Citizen.CreateThread(function()
 					Wait(500)
 					RSCore.Functions.TriggerCallback("esx_realparking:driveCar", function(callback)
 						if callback.status then
+							
 							DeleteVehicle(storedVehicle.entity)
 							DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
 							local carajo = json.decode(callback.vehData)
@@ -420,6 +427,7 @@ Citizen.CreateThread(function()
 
 				else
 					local veh = GetVehiclePedIsIn(GetPlayerPed(-1))
+					currentfuel = exports['LegacyFuel']:GetFuel(veh)
 					if veh ~= 0 then
 						if IsThisModelACar(GetEntityModel(veh)) or IsThisModelABike(GetEntityModel(veh)) or IsThisModelABicycle(GetEntityModel(veh)) then
 							local vehProps  = RSCore.Functions.GetVehicleProperties(veh)
@@ -438,6 +446,7 @@ Citizen.CreateThread(function()
 								else
 									RSCore.Functions.Notify(callback.message)
 								end
+								
 								Wait(1000)
 								DoScreenFadeIn(250)
 							end, {
