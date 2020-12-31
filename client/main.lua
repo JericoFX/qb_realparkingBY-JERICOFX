@@ -11,6 +11,7 @@ PlayerIdentifier = nil
 SpawnedVehicles  = false
 currentfuel = nil
 setfuel = nil
+isLoggedIn = false
 Citizen.CreateThread(function()
 	while RSCore == nil do
 		Citizen.Wait(10)
@@ -23,11 +24,11 @@ Citizen.CreateThread(function()
 		Citizen.Wait(10)
 	end ]]
 	PlayerData = RSCore.Functions.GetPlayerData()
-	RSCore.Functions.TriggerCallback("esx_realparking:getPlayerIdentifier", function(callback)
-		PlayerIdentifier = callback
-		RemoveVehicles()
-		Citizen.Wait(500)
-	end)
+	print("Datos del jugador son .."..tostring(PlayerData))
+
+		
+	--end
+	
 end)
 -- Refresh the vehicles
 
@@ -36,6 +37,19 @@ AddEventHandler("esx_realparking:refreshVehicles", function(vehicles)
 	RemoveVehicles()
 	Citizen.Wait(1000)
 	SpawnVehicles(vehicles)
+end)
+
+RegisterNetEvent("esx_realparking:getPlayerIden")
+AddEventHandler("esx_realparking:getPlayerIden", function()
+	
+	RSCore.Functions.TriggerCallback("esx_realparking:getPlayerIdentifier", function(callback)
+		PlayerIdentifier = callback
+		RemoveVehicles()
+		Citizen.Wait(500)
+	end)
+	
+	
+	
 end)
 
 RegisterNetEvent("esx_realparking:addVehicle")
@@ -52,7 +66,11 @@ RegisterNetEvent("esx_realparking:impoundVehicle")
 AddEventHandler("esx_realparking:impoundVehicle", function(vehicle)
 	ImpoundVehicle(vehicle)
 end)
+RegisterNetEvent('RSCore:Client:OnPlayerLoaded')
+AddEventHandler('RSCore:Client:OnPlayerLoaded', function()
 
+	isLoggedIn = true
+end)
 -- Get the stored vehicle player is in
 
 function GetPedInStoredCar(ped)
