@@ -7,6 +7,10 @@ A real car parking script for FiveM
 
 buymeacoff.ee/jericofx
 
+# IMPORTANT INFORMATION
+
+I found a fix to the Nil values in the server console, it happend because when we are in the selection menu, the resource want an id, at that momento we dont have that, so the fix i found is going to the rs-spawn (qb-spawn) in this part https://prnt.sc/wdv3av  put the trigger event in this case is     TriggerEvent("esx_realparking:getPlayerIden") like the image.
+
 
 
 
