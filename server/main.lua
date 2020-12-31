@@ -172,7 +172,7 @@ function RefreshVehicles(xPlayer, src, parkingName)
 	local vehicles = {}
 	local nameList = {}
 	if Config.UsingOldESX then
-		local nrs = MySQL.Sync.fetchAll("SELECT citizenid, name FROM players")
+		local nrs = exports['ghmattimysql']:execute("SELECT citizenid, name FROM players")
 		if type(nrs) == 'table' then
 			for k, v in pairs(nrs) do
 				nameList[v.citizenid] = v.name
@@ -204,7 +204,7 @@ end
 -- Get the number of the vehicles
 
 function GetVehicleNumOfParking(name)
-	local rs = MySQL.Sync.fetchAll("SELECT id FROM car_parking WHERE parking = '"..name.."'")
+	local rs = exports['ghmattimysql']:execute("SELECT id FROM car_parking WHERE parking = '"..name.."'")
 	if type(rs) == 'table' then
 		return #rs
 	else
