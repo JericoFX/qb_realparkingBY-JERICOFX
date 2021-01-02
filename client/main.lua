@@ -46,7 +46,7 @@ AddEventHandler("esx_realparking:getPlayerIden", function()
 		RemoveVehicles()
 		Citizen.Wait(500)
 	end) ]]
-	TriggerEvent("esx_realparking:refreshVehicles")
+	TriggerServerEvent("esx_realparking:refreshVehiclesOnStart")
 	
 	
 end)

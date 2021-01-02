@@ -16,7 +16,30 @@ AddEventHandler('esx_realparking:refreshVehicles', function(parkingName)
 	RefreshVehicles(xPlayer, source, parkingName)
 	print(xPlayer.PlayerData.money.cash)
 end)
+function tprint (tbl, indent)
+	if not indent then indent = 0 end
+	for k, v in pairs(tbl) do
+	  formatting = string.rep("  ", indent) .. k .. ": "
+	  if type(v) == "table" then
+		print(formatting)
+		tprint(v, indent+1)
+	  elseif type(v) == 'boolean' then
+		print(formatting .. tostring(v))      
+	  else
+		print(formatting .. v)
+	  end
+	end
+  end
+RegisterServerEvent('esx_realparking:refreshVehiclesOnStart')
+AddEventHandler('esx_realparking:refreshVehiclesOnStart', function()
 
+	local xPlayer = RSCore.Functions.GetPlayer(source)
+	for k,v in pairs(Config.ParkingLocations) do
+		print(k)
+	RefreshVehicles(xPlayer, source, k)
+	end
+	print(xPlayer.PlayerData.money.cash)
+end)
 -- Save the car to database
 
 RSCore.Functions.CreateCallback("esx_realparking:saveCar", function(source, cb, vehicleData)
