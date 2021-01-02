@@ -24,7 +24,6 @@ Citizen.CreateThread(function()
 		Citizen.Wait(10)
 	end ]]
 	PlayerData = RSCore.Functions.GetPlayerData()
-	print("Datos del jugador son .."..tostring(PlayerData))
 
 		
 	--end
@@ -41,13 +40,13 @@ end)
 
 RegisterNetEvent("esx_realparking:getPlayerIden")
 AddEventHandler("esx_realparking:getPlayerIden", function()
-	
-	RSCore.Functions.TriggerCallback("esx_realparking:getPlayerIdentifier", function(callback)
+
+	--[[ RSCore.Functions.TriggerCallback("esx_realparking:getPlayerIdentifier", function(callback)
 		PlayerIdentifier = callback
 		RemoveVehicles()
 		Citizen.Wait(500)
-	end)
-	
+	end) ]]
+	TriggerEvent("esx_realparking:refreshVehicles")
 	
 	
 end)
