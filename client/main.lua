@@ -40,15 +40,12 @@ end)
 
 RegisterNetEvent("esx_realparking:getPlayerIden")
 AddEventHandler("esx_realparking:getPlayerIden", function()
-
-	--[[ RSCore.Functions.TriggerCallback("esx_realparking:getPlayerIdentifier", function(callback)
-		PlayerIdentifier = callback
-		RemoveVehicles()
-		Citizen.Wait(500)
-	end) ]]
+	Wait(2000)
+	PlayerData = RSCore.Functions.GetPlayerData()
 	TriggerServerEvent("esx_realparking:refreshVehiclesOnStart")
-	
-	
+	Wait(2000)
+	jericofx()
+
 end)
 
 RegisterNetEvent("esx_realparking:addVehicle")
@@ -359,7 +356,18 @@ Citizen.CreateThread(function()
 end)
 
 -- Draw text thread
-
+jericofx = function()
+	while true do
+		Wait(0)
+		local pl = GetEntityCoords(GetPlayerPed(-1))
+		for k, v in pairs(LocalVehicles) do
+			if GetDistanceBetweenCoords(pl.x, pl.y, pl.z, v.data.location.x, v.data.location.y, v.data.location.z, true) < 3.0 then
+				Draw3DText(v.data.location.x, v.data.location.y, v.data.location.z, string.format(_U("owner", v.name)), 0, 0.08, 0.08)
+				Draw3DText(v.data.location.x, v.data.location.y, v.data.location.z - 0.2, string.format(_U("plate", v.plate)), 0, 0.05, 0.05)
+			end
+		end
+	end
+end
 Citizen.CreateThread(function()
 	while true do
 		Wait(0)

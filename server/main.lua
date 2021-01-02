@@ -36,9 +36,9 @@ AddEventHandler('esx_realparking:refreshVehiclesOnStart', function()
 	local xPlayer = RSCore.Functions.GetPlayer(source)
 	for k,v in pairs(Config.ParkingLocations) do
 		print(k)
-	RefreshVehicles(xPlayer, source, k)
+	RefreshVehicles(xPlayer, -1, k)
 	end
-	print(xPlayer.PlayerData.money.cash)
+--	print(xPlayer.PlayerData.money.cash)
 end)
 -- Save the car to database
 
@@ -199,6 +199,7 @@ function RefreshVehicles(xPlayer, src, parkingName)
 		if type(nrs) == 'table' then
 			for k, v in pairs(nrs) do
 				nameList[v.citizenid] = v.name
+				print(v.name.."|"..v.citizenid)
 			end
 		end
 	end
@@ -210,7 +211,7 @@ function RefreshVehicles(xPlayer, src, parkingName)
 			['@parkingName'] = parkingName
 		}
 	end
-	exports['ghmattimysql']:execute(querySQL, queryArg, function(rs) 
+	exports['ghmattimysql']:execute(querySQL, function(rs) 
 		for k, v in pairs(rs) do
 			local vehicle = json.decode(v.data)
 			local plate   = v.plate
